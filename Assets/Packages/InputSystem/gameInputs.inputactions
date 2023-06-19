@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "0c56af58-92ce-4f77-8d95-d1b98cad772d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Dash",
                     "type": "Button",
                     "id": "ebf2c3bc-7ab0-40b4-97e4-9a03ac54ddf4",
@@ -264,6 +273,28 @@
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31d85dc0-8abc-414f-92b8-c90d54fc979e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0cba911d-0d64-444c-aa09-8552b613ffe1",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -272,7 +303,7 @@
             "id": "23172e03-8895-4505-b702-714fade27b14",
             "actions": [
                 {
-                    "name": "Pause",
+                    "name": "Unpause",
                     "type": "Button",
                     "id": "c8ef0e32-71f9-427a-a33d-fba6eea1fbba",
                     "expectedControlType": "Button",
@@ -325,7 +356,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -336,7 +367,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

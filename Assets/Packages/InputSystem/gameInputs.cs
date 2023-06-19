@@ -37,6 +37,15 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c56af58-92ce-4f77-8d95-d1b98cad772d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""ebf2c3bc-7ab0-40b4-97e4-9a03ac54ddf4"",
@@ -286,6 +295,28 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31d85dc0-8abc-414f-92b8-c90d54fc979e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0cba911d-0d64-444c-aa09-8552b613ffe1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -294,7 +325,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             ""id"": ""23172e03-8895-4505-b702-714fade27b14"",
             ""actions"": [
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""Unpause"",
                     ""type"": ""Button"",
                     ""id"": ""c8ef0e32-71f9-427a-a33d-fba6eea1fbba"",
                     ""expectedControlType"": ""Button"",
@@ -347,7 +378,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""Unpause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -358,7 +389,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""Unpause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -502,11 +533,12 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
-        m_Game_Pause = m_Game.FindAction("Pause", throwIfNotFound: true);
+        m_Game_Unpause = m_Game.FindAction("Unpause", throwIfNotFound: true);
         m_Game_MenuNavigationUp = m_Game.FindAction("MenuNavigationUp", throwIfNotFound: true);
         m_Game_MenuNavigationDown = m_Game.FindAction("MenuNavigationDown", throwIfNotFound: true);
         m_Game_TabNavigationLeft = m_Game.FindAction("TabNavigationLeft", throwIfNotFound: true);
@@ -573,6 +605,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Interact;
     public struct PlayerActions
@@ -580,6 +613,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         private @GameInputs m_Wrapper;
         public PlayerActions(@GameInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -594,6 +628,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -607,6 +644,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -634,7 +674,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     // Game
     private readonly InputActionMap m_Game;
     private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
-    private readonly InputAction m_Game_Pause;
+    private readonly InputAction m_Game_Unpause;
     private readonly InputAction m_Game_MenuNavigationUp;
     private readonly InputAction m_Game_MenuNavigationDown;
     private readonly InputAction m_Game_TabNavigationLeft;
@@ -643,7 +683,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     {
         private @GameInputs m_Wrapper;
         public GameActions(@GameInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Pause => m_Wrapper.m_Game_Pause;
+        public InputAction @Unpause => m_Wrapper.m_Game_Unpause;
         public InputAction @MenuNavigationUp => m_Wrapper.m_Game_MenuNavigationUp;
         public InputAction @MenuNavigationDown => m_Wrapper.m_Game_MenuNavigationDown;
         public InputAction @TabNavigationLeft => m_Wrapper.m_Game_TabNavigationLeft;
@@ -657,9 +697,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameActionsCallbackInterfaces.Add(instance);
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
+            @Unpause.started += instance.OnUnpause;
+            @Unpause.performed += instance.OnUnpause;
+            @Unpause.canceled += instance.OnUnpause;
             @MenuNavigationUp.started += instance.OnMenuNavigationUp;
             @MenuNavigationUp.performed += instance.OnMenuNavigationUp;
             @MenuNavigationUp.canceled += instance.OnMenuNavigationUp;
@@ -676,9 +716,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IGameActions instance)
         {
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
+            @Unpause.started -= instance.OnUnpause;
+            @Unpause.performed -= instance.OnUnpause;
+            @Unpause.canceled -= instance.OnUnpause;
             @MenuNavigationUp.started -= instance.OnMenuNavigationUp;
             @MenuNavigationUp.performed -= instance.OnMenuNavigationUp;
             @MenuNavigationUp.canceled -= instance.OnMenuNavigationUp;
@@ -711,12 +751,13 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
     public interface IGameActions
     {
-        void OnPause(InputAction.CallbackContext context);
+        void OnUnpause(InputAction.CallbackContext context);
         void OnMenuNavigationUp(InputAction.CallbackContext context);
         void OnMenuNavigationDown(InputAction.CallbackContext context);
         void OnTabNavigationLeft(InputAction.CallbackContext context);
