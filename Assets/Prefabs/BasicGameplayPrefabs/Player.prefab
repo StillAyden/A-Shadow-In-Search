@@ -285,6 +285,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveInput: {x: 0, y: 0}
   moveForce: 25
-  topSpeed: 7
-  dashForce: 10
+  topSpeed: 3
+  dashForce: 4
   dashTimer: 3

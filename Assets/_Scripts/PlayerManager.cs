@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     GameInputs _inputs;
 
     Rigidbody rb;
+    Camera cam;
 
     [Header("Player Movement")]
     [SerializeField] Vector2 moveInput;
@@ -19,16 +20,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] float dashTimer = 3f;
     bool canDash = true;
 
-    private void OnEnable()
-    {
-    }
     private void OnDisable()
     {
         _inputs.Player.Disable();
     }
-
     private void Awake()
     {
+        cam = Camera.main;
         rb = GetComponent<Rigidbody>();
         _inputs = new GameInputs();
         _inputs.Player.Enable();
@@ -39,8 +37,6 @@ public class PlayerManager : MonoBehaviour
     {
         Move();
     }
-
-
     private void Move()
     {
         moveInput = _inputs.Player.Move.ReadValue<Vector2>();
@@ -48,7 +44,11 @@ public class PlayerManager : MonoBehaviour
         //rb.velocity = new Vector3(moveInput.x, 0f, moveInput.y) * moveSpeed;
         if (rb.velocity.magnitude < topSpeed)
         {
-            rb.AddForce(new Vector3(moveInput.x, 0f, moveInput.y) * moveForce);
+            //rb.AddForce(new Vector3((moveInput.x), 0f, moveInput.y) * moveForce);
+
+            Vector3 moveDirection;
+            moveDirection = (cam.transform.right * moveInput.x * moveForce) + (cam.transform.up * moveInput.y * moveForce);
+            rb.AddForce(moveDirection);
         }
     }
 
@@ -57,7 +57,7 @@ public class PlayerManager : MonoBehaviour
         if (canDash == true)
         {
             canDash = false;
-            rb.AddForce(new Vector3(moveInput.x, 0f, moveInput.y) * dashForce, ForceMode.Impulse);
+            rb.AddForce((cam.transform.right * moveInput.x + cam.transform.up * moveInput.y) * dashForce, ForceMode.Impulse);
             yield return new WaitForSeconds(dashTimer);
             canDash = true;
         }
