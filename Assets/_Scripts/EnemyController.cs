@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] Character Character;
+    [SerializeField] List<LightSwitch> lightSwitches;
+    [SerializeField] LightSwitch lightSwitch;
 
     [Header("Navigation")]
     NavMeshAgent enemyNavigation;
@@ -15,11 +17,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float waitTimeAtEachLocation = 5f;
 
     Coroutine coroutine = null;
+    bool onTriggerCoroutine = false;
     private void Awake()
     {
         enemyNavigation = GetComponent<NavMeshAgent>();
 
         coroutine = null;
+        onTriggerCoroutine = false;
     }
 
     private void Update()
@@ -45,6 +49,7 @@ public class EnemyController : MonoBehaviour
         selectedDestination = moveLocations[rand];
     }
 
+
     IEnumerator WaitAtLocation()
     {
         yield return new WaitForSeconds(waitTimeAtEachLocation);
@@ -52,19 +57,52 @@ public class EnemyController : MonoBehaviour
         coroutine = null;
     }
 
-    private IEnumerator OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag("Player"))
+        if (col.gameObject.layer == 6)
         {
-            enemyNavigation.destination = this.transform.position;
-            this.transform.LookAt(col.transform);
-            yield return new WaitForSeconds(1f);
-            enemyNavigation.destination = col.transform.position;
-
-            if(Vector3.Distance(this.transform.position, selectedDestination.position) > 0.2)
+            switch (col.gameObject.name)
             {
-                enemyNavigation.destination = selectedDestination.position;
+                case "Kitchen": lightSwitch = lightSwitches[0]; break;
+                case "LivingRoom": lightSwitch = lightSwitches[1]; break;
+                case "Bathroom": lightSwitch = lightSwitches[2]; break;
+                case "Bedroom": lightSwitch = lightSwitches[3]; break;
+                case "StorageRoom": lightSwitch = lightSwitches[4]; break;
+                default: Debug.Log("No lightswitch found!"); break;
             }
+
+            Transform tempDestination = selectedDestination;
+
+            if (!lightSwitch.isOn)
+            {
+                selectedDestination = lightSwitch.transform;
+                if(Vector3.Distance(this.transform.position, lightSwitch.transform.position) < 0.25)
+                {
+                    lightSwitch.isOn = true;
+                    selectedDestination = tempDestination;
+                }
+            }
+        }
+    }
+
+    private IEnumerator OnTriggerExit(Collider col)
+    {
+        if (onTriggerCoroutine == false)
+        {
+            onTriggerCoroutine = true;
+            if (col.CompareTag("Player"))
+            {
+                enemyNavigation.destination = this.transform.position;
+                this.transform.LookAt(col.transform);
+                yield return new WaitForSeconds(1f);
+                enemyNavigation.destination = col.transform.position;
+
+                if (Vector3.Distance(this.transform.position, selectedDestination.position) > 0.1)
+                {
+                    enemyNavigation.destination = selectedDestination.position;
+                }
+            }
+            onTriggerCoroutine = false;
         }
     }
 }

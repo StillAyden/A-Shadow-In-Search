@@ -225,4 +225,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camFollowSpeed: 0.1
   camOffset: 0
-  camHeight: 7.5
+  camHeight: 4.4
