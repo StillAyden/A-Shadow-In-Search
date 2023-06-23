@@ -17,6 +17,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] menuTabs selectedOption;
     GameInputs gameInputs;
     [SerializeField] Image cursor;
+    [SerializeField] Canvas settingsCanvas;
+
+    [SerializeField] Animator backAnim;
 
     private void OnDisable()
     {
@@ -36,6 +39,7 @@ public class MainMenu : MonoBehaviour
 
         gameInputs.Game.MenuNavigationUp.performed += x => UpperSelection();
         gameInputs.Game.MenuNavigationDown.performed += x => LowerSelection();
+        gameInputs.Game.Select.performed += x => EnterSelectedMenu();
     }
 
     void UpperSelection()
@@ -69,10 +73,26 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    void EnterSelectedMenu()
+    {
+        switch ((int)selectedOption)
+        {
+            case 0: ClickStart(); break;
+            case 1: ClickSettings(); break;
+            case 2: ClickCredits(); break;
+            case 3: ClickExit(); break;
+        }
+    }
+
     public void highlightStart()
     {
         selectedOption = menuTabs.Start;
         cursor.GetComponent<RectTransform>().anchoredPosition = new Vector3(270, 180, 0);
+    }
+
+    public void ClickStart()
+    {
+
     }
 
     public void highlightSettings()
@@ -81,15 +101,40 @@ public class MainMenu : MonoBehaviour
         cursor.GetComponent<RectTransform>().anchoredPosition = new Vector3(270, 60, 0);
     }
 
+    public void ClickSettings()
+    {
+        this.gameObject.GetComponent<Canvas>().enabled = false;
+        backAnim.SetTrigger("SettingsClick");
+        StartCoroutine(SettingsTimer());
+    }
+
+    IEnumerator SettingsTimer()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        settingsCanvas.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
+    }
+
     public void highlightCredits()
     {
         selectedOption = menuTabs.Credits;
         cursor.GetComponent<RectTransform>().anchoredPosition = new Vector3(270, -60, 0);
     }
 
+    public void ClickCredits()
+    {
+
+    }
+
     public void highlightExit()
     {
         selectedOption = menuTabs.Exit;
         cursor.GetComponent<RectTransform>().anchoredPosition = new Vector3(270, -180, 0);
+    }
+
+    public void ClickExit()
+    {
+        Debug.Log("Exiting Game...");
+        Application.Quit();
     }
 }

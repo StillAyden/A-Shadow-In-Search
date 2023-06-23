@@ -368,6 +368,15 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""47b56828-a9be-4233-8aee-4f75a9829f1d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -524,6 +533,28 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""action"": ""TabNavigationRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10513e41-78a1-4995-b961-8d47c4d0914b"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b30803c-6025-4202-b23b-668b71793097"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -543,6 +574,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         m_Game_MenuNavigationDown = m_Game.FindAction("MenuNavigationDown", throwIfNotFound: true);
         m_Game_TabNavigationLeft = m_Game.FindAction("TabNavigationLeft", throwIfNotFound: true);
         m_Game_TabNavigationRight = m_Game.FindAction("TabNavigationRight", throwIfNotFound: true);
+        m_Game_Select = m_Game.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -679,6 +711,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_MenuNavigationDown;
     private readonly InputAction m_Game_TabNavigationLeft;
     private readonly InputAction m_Game_TabNavigationRight;
+    private readonly InputAction m_Game_Select;
     public struct GameActions
     {
         private @GameInputs m_Wrapper;
@@ -688,6 +721,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         public InputAction @MenuNavigationDown => m_Wrapper.m_Game_MenuNavigationDown;
         public InputAction @TabNavigationLeft => m_Wrapper.m_Game_TabNavigationLeft;
         public InputAction @TabNavigationRight => m_Wrapper.m_Game_TabNavigationRight;
+        public InputAction @Select => m_Wrapper.m_Game_Select;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -712,6 +746,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @TabNavigationRight.started += instance.OnTabNavigationRight;
             @TabNavigationRight.performed += instance.OnTabNavigationRight;
             @TabNavigationRight.canceled += instance.OnTabNavigationRight;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -731,6 +768,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @TabNavigationRight.started -= instance.OnTabNavigationRight;
             @TabNavigationRight.performed -= instance.OnTabNavigationRight;
             @TabNavigationRight.canceled -= instance.OnTabNavigationRight;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -762,5 +802,6 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         void OnMenuNavigationDown(InputAction.CallbackContext context);
         void OnTabNavigationLeft(InputAction.CallbackContext context);
         void OnTabNavigationRight(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }
