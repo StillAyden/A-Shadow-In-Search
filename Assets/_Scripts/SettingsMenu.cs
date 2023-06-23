@@ -53,6 +53,9 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Image tabCursor;
     [SerializeField] Image verticalCursor;
 
+    [SerializeField] Animator backAnim;
+    [SerializeField] Canvas menuCanvas;
+
     [Header("Video")]
     [SerializeField] GameObject videoPanel;
 
@@ -70,6 +73,11 @@ public class SettingsMenu : MonoBehaviour
         gameInputs.Game.Disable();
     }
 
+    private void OnEnable()
+    {
+        gameInputs.Game.Enable();
+    }
+
     private void Awake()
     {
         gameInputs = new GameInputs();
@@ -84,6 +92,8 @@ public class SettingsMenu : MonoBehaviour
 
         gameInputs.Game.TabNavigationLeft.performed += LeftMenu;
         gameInputs.Game.TabNavigationRight.performed += RightMenu;
+
+        gameInputs.Game.UnpauseAndBack.performed += x => BackToMenu();
 
     }
 
@@ -440,5 +450,20 @@ public class SettingsMenu : MonoBehaviour
         }
     }
     #endregion
+
+    public void BackToMenu()//InputAction.CallbackContext context
+    {
+        this.gameObject.GetComponent<Canvas>().enabled = false;
+        backAnim.SetTrigger("BackToMenu");
+        StartCoroutine(menuTimer());
+    }
+
+    IEnumerator menuTimer()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        menuCanvas.enabled = true;
+        menuCanvas.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
+    }
 
 }

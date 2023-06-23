@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour
     GameInputs gameInputs;
     [SerializeField] Image cursor;
     [SerializeField] Canvas settingsCanvas;
+    [SerializeField] Canvas creditsCanvas;
 
     [SerializeField] Animator backAnim;
 
@@ -27,6 +28,14 @@ public class MainMenu : MonoBehaviour
         gameInputs.Game.MenuNavigationDown.performed -= x => LowerSelection();
 
         gameInputs.Game.Disable();
+    }
+
+    private void OnEnable()
+    {
+        //gameInputs.Game.MenuNavigationUp.performed += x => UpperSelection();
+        //gameInputs.Game.MenuNavigationDown.performed += x => LowerSelection();
+
+        gameInputs.Game.Enable();
     }
 
     private void Awake()
@@ -112,6 +121,7 @@ public class MainMenu : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1.5f);
         settingsCanvas.gameObject.SetActive(true);
+        settingsCanvas.enabled = true;
         this.gameObject.SetActive(false);
     }
 
@@ -123,7 +133,16 @@ public class MainMenu : MonoBehaviour
 
     public void ClickCredits()
     {
+        this.gameObject.GetComponent<Canvas>().enabled = false;
+        backAnim.SetTrigger("SettingsClick");
+        StartCoroutine(CreditsTimer());
+    }
 
+    IEnumerator CreditsTimer()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        creditsCanvas.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 
     public void highlightExit()

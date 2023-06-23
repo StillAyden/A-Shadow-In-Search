@@ -325,7 +325,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             ""id"": ""23172e03-8895-4505-b702-714fade27b14"",
             ""actions"": [
                 {
-                    ""name"": ""Unpause"",
+                    ""name"": ""UnpauseAndBack"",
                     ""type"": ""Button"",
                     ""id"": ""c8ef0e32-71f9-427a-a33d-fba6eea1fbba"",
                     ""expectedControlType"": ""Button"",
@@ -387,7 +387,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Unpause"",
+                    ""action"": ""UnpauseAndBack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -398,7 +398,18 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Unpause"",
+                    ""action"": ""UnpauseAndBack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4599b3d8-f585-40f5-bdaf-05df46b123dd"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UnpauseAndBack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -569,7 +580,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
-        m_Game_Unpause = m_Game.FindAction("Unpause", throwIfNotFound: true);
+        m_Game_UnpauseAndBack = m_Game.FindAction("UnpauseAndBack", throwIfNotFound: true);
         m_Game_MenuNavigationUp = m_Game.FindAction("MenuNavigationUp", throwIfNotFound: true);
         m_Game_MenuNavigationDown = m_Game.FindAction("MenuNavigationDown", throwIfNotFound: true);
         m_Game_TabNavigationLeft = m_Game.FindAction("TabNavigationLeft", throwIfNotFound: true);
@@ -706,7 +717,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     // Game
     private readonly InputActionMap m_Game;
     private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
-    private readonly InputAction m_Game_Unpause;
+    private readonly InputAction m_Game_UnpauseAndBack;
     private readonly InputAction m_Game_MenuNavigationUp;
     private readonly InputAction m_Game_MenuNavigationDown;
     private readonly InputAction m_Game_TabNavigationLeft;
@@ -716,7 +727,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     {
         private @GameInputs m_Wrapper;
         public GameActions(@GameInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Unpause => m_Wrapper.m_Game_Unpause;
+        public InputAction @UnpauseAndBack => m_Wrapper.m_Game_UnpauseAndBack;
         public InputAction @MenuNavigationUp => m_Wrapper.m_Game_MenuNavigationUp;
         public InputAction @MenuNavigationDown => m_Wrapper.m_Game_MenuNavigationDown;
         public InputAction @TabNavigationLeft => m_Wrapper.m_Game_TabNavigationLeft;
@@ -731,9 +742,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameActionsCallbackInterfaces.Add(instance);
-            @Unpause.started += instance.OnUnpause;
-            @Unpause.performed += instance.OnUnpause;
-            @Unpause.canceled += instance.OnUnpause;
+            @UnpauseAndBack.started += instance.OnUnpauseAndBack;
+            @UnpauseAndBack.performed += instance.OnUnpauseAndBack;
+            @UnpauseAndBack.canceled += instance.OnUnpauseAndBack;
             @MenuNavigationUp.started += instance.OnMenuNavigationUp;
             @MenuNavigationUp.performed += instance.OnMenuNavigationUp;
             @MenuNavigationUp.canceled += instance.OnMenuNavigationUp;
@@ -753,9 +764,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IGameActions instance)
         {
-            @Unpause.started -= instance.OnUnpause;
-            @Unpause.performed -= instance.OnUnpause;
-            @Unpause.canceled -= instance.OnUnpause;
+            @UnpauseAndBack.started -= instance.OnUnpauseAndBack;
+            @UnpauseAndBack.performed -= instance.OnUnpauseAndBack;
+            @UnpauseAndBack.canceled -= instance.OnUnpauseAndBack;
             @MenuNavigationUp.started -= instance.OnMenuNavigationUp;
             @MenuNavigationUp.performed -= instance.OnMenuNavigationUp;
             @MenuNavigationUp.canceled -= instance.OnMenuNavigationUp;
@@ -797,7 +808,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     }
     public interface IGameActions
     {
-        void OnUnpause(InputAction.CallbackContext context);
+        void OnUnpauseAndBack(InputAction.CallbackContext context);
         void OnMenuNavigationUp(InputAction.CallbackContext context);
         void OnMenuNavigationDown(InputAction.CallbackContext context);
         void OnTabNavigationLeft(InputAction.CallbackContext context);

@@ -303,7 +303,7 @@
             "id": "23172e03-8895-4505-b702-714fade27b14",
             "actions": [
                 {
-                    "name": "Unpause",
+                    "name": "UnpauseAndBack",
                     "type": "Button",
                     "id": "c8ef0e32-71f9-427a-a33d-fba6eea1fbba",
                     "expectedControlType": "Button",
@@ -365,7 +365,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Unpause",
+                    "action": "UnpauseAndBack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -376,7 +376,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Unpause",
+                    "action": "UnpauseAndBack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4599b3d8-f585-40f5-bdaf-05df46b123dd",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UnpauseAndBack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

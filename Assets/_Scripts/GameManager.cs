@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         else
         {
             _inputs.Game.Enable();
-            _inputs.Game.Unpause.performed += x => UnpauseGame();
+            _inputs.Game.UnpauseAndBack.performed += x => UnpauseGame();
 
         }
 
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         _inputs.Player.Pause.performed -= x => PauseGame();
         _inputs.Player.Disable();
         _inputs.Game.Enable();
-        _inputs.Game.Unpause.performed += x => UnpauseGame();
+        _inputs.Game.UnpauseAndBack.performed += x => UnpauseGame();
 
         hudCanvas.gameObject.SetActive(false);
         pauseCanvas.gameObject.SetActive(true);
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     void UnpauseGame()
     {
         isPaused = false;
-        _inputs.Game.Unpause.performed -= x => UnpauseGame();
+        _inputs.Game.UnpauseAndBack.performed -= x => UnpauseGame();
         _inputs.Game.Disable();
         _inputs.Player.Enable();
         _inputs.Player.Pause.performed += x => PauseGame();

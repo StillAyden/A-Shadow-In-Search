@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/OutdoorsScene.unity
-    guid: 8124e5870f4fd4c779e7a5f994e84ad1
+    path: Assets/Scenes/MainMenu.unity
+    guid: b0a9128f06f4ef14fbd3d86b16e5801c
+  - enabled: 1
+    path: Assets/Scenes/Hospital.unity
+    guid: ae1d1a5bdc46e85489e7dbb9f70f229c
+  - enabled: 1
+    path: Assets/Scenes/House_DownLevel.unity
+    guid: e4a022fffd66b8e46bd6b9933c720290
+  - enabled: 1
+    path: Assets/Scenes/House_UpLevel.unity
+    guid: d6db79eb946ec9a4b8d7ac8a07221cc1
   m_configObjects: {}
