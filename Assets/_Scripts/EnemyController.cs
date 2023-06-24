@@ -34,7 +34,8 @@ public class EnemyController : MonoBehaviour
                 ChooseRandomLocation();
                 enemyNavigation.destination = selectedDestination.position;
             }
-            else if (Vector3.Distance(this.transform.position, selectedDestination.position) < 0.2)
+            
+        if (Vector3.Distance(this.transform.position, selectedDestination.position) < 0.2)
             {
                 if (coroutine == null)
                 {

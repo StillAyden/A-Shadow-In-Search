@@ -8,6 +8,7 @@ TagManager:
   - DynamicLights
   - Interior
   - LightSwitch
+  - GraphicsSettings
   layers:
   - Default
   - TransparentFX

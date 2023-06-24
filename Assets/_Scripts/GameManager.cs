@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         hudCanvas.gameObject.SetActive(false);
         pauseCanvas.gameObject.SetActive(true);
 
-        Time.timeScale = 0;
+        pauseCanvas.gameObject.SetActive(true);
     }
 
     void UnpauseGame()
@@ -55,6 +55,6 @@ public class GameManager : MonoBehaviour
         hudCanvas.gameObject.SetActive(true);
         pauseCanvas.gameObject.SetActive(false);
 
-        Time.timeScale = 1;
+        pauseCanvas.gameObject.SetActive(false);
     }
 }

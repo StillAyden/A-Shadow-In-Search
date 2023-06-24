@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 enum menuTabs
 {
@@ -21,6 +22,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Canvas creditsCanvas;
 
     [SerializeField] Animator backAnim;
+    [SerializeField] Image loadIcon;
+    [SerializeField] AudioSource music;
 
     private void OnDisable()
     {
@@ -101,7 +104,26 @@ public class MainMenu : MonoBehaviour
 
     public void ClickStart()
     {
+        this.gameObject.GetComponent<Canvas>().enabled = false;
+        backAnim.SetTrigger("SettingsClick");
+        StartCoroutine(StopMusic());
+        StartCoroutine(timerPlay());
+    }
 
+    IEnumerator timerPlay()
+    {
+        loadIcon.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(5f);
+        SceneManager.LoadScene(1);
+    }
+
+    IEnumerator StopMusic()
+    {
+        while (music.volume > 0)
+        {
+            music.volume = music.volume - 0.02f;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public void highlightSettings()
