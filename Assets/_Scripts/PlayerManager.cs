@@ -5,21 +5,24 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerManager : MonoBehaviour
 {
     GameInputs _inputs;
+    GameManager gameManager;
 
     Rigidbody rb;
     Camera cam;
     Volume volume;
 
     [Header("Player Stats")]
-    [SerializeField] float health = 100f;
+    [SerializeField] public float health = 100f;
     [SerializeField] bool inLight = false;
+    [SerializeField] bool hasKey = false;
 
-    float damage = 0.5f;
+    float damage = 0.6f;
     Coroutine damageTimer = null;
 
     [Header("Player Movement")]
@@ -34,12 +37,20 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Image dashIndicator;
     bool dashReload = false;
 
+    [Header("Health")]
+    [SerializeField] Image healthIndicator;
+
+    [Header("UI")]
+    [SerializeField] GameObject interactPanel;
+    [SerializeField] Canvas canvasFoundKey; 
+
     private void OnDisable()
     {
         _inputs.Player.Disable();
     }
     private void Awake()
     {
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         cam = Camera.main;
         rb = GetComponent<Rigidbody>();
         _inputs = new GameInputs();
@@ -57,6 +68,13 @@ public class PlayerManager : MonoBehaviour
         if (damageTimer == null)
         {
             damageTimer = StartCoroutine(TakeDamage());
+        }
+
+        healthIndicator.fillAmount = health/100;
+
+        if(health <= 0)
+        {
+            StartCoroutine(gameManager.GameOver());
         }
     }
     private void Move()
@@ -86,16 +104,12 @@ public class PlayerManager : MonoBehaviour
             {
                 while(dashIndicator.fillAmount != 1)
                 {
-                    dashIndicator.fillAmount += 0.0065f;
+                    dashIndicator.fillAmount += 0.0068f;
                     yield return new WaitForFixedUpdate();
                 }
                 dashReload = false;
             }
         }
-
-
-
-
     }
 
     IEnumerator DashTimer()
@@ -110,6 +124,28 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    IEnumerator foundKey()
+    {
+        canvasFoundKey.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        canvasFoundKey.gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.CompareTag("Key"))
+        {
+            hasKey = true;
+            Destroy(col.gameObject);
+            StartCoroutine(foundKey());
+        }
+
+        if (col.CompareTag("End"))
+        {
+            gameManager.End();
+        }
+    }
+
     private void OnTriggerStay(Collider col)
     {
         if (col.CompareTag("DynamicLights"))
@@ -117,6 +153,38 @@ public class PlayerManager : MonoBehaviour
             inLight = true;
         }
         else inLight = false;
+
+        if ((col.CompareTag("OutsideDoor") && interactPanel.gameObject.activeSelf == false) || (col.CompareTag("Door") && interactPanel.gameObject.activeSelf == false))
+        {
+            interactPanel.gameObject.SetActive(true);
+        }
+
+        if(col.CompareTag("OutsideDoor") && _inputs.Player.Interact.IsPressed())
+        {
+            SceneManager.LoadScene("House_DownLevel");
+        }
+
+        if ((col.CompareTag("Door") && hasKey) && _inputs.Player.Interact.IsPressed())
+        {
+            SceneManager.LoadScene("House_UpLevel");
+        }
+        else if (col.CompareTag("Door") && !hasKey && _inputs.Player.Interact.IsPressed())
+        {
+            Debug.Log("You need to find a Key");
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("DynamicLights"))
+        {
+            inLight = false;
+        }
+
+        if ((col.CompareTag("OutsideDoor") && interactPanel.gameObject.activeSelf == true) || (col.CompareTag("Door") && interactPanel.gameObject.activeSelf == true))
+        {
+            interactPanel.gameObject.SetActive(false);
+        }
     }
     IEnumerator TakeDamage()
     {
@@ -130,7 +198,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     temp.intensity = new ClampedFloatParameter(((100f - health) / 100f), 0, 1, true);
                 }
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.005f);
                 damageTimer = null;
 
             }
@@ -139,7 +207,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (health < 100)
             {
-                health = health + 1;
+                health = health + 0.5f;
                 Vignette temp;
                 if (volume.profile.TryGet<Vignette>(out temp))
                 {
@@ -148,9 +216,6 @@ public class PlayerManager : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
                 damageTimer = null;
             }
-        }
-
-        
-        
+        }   
     }
 }

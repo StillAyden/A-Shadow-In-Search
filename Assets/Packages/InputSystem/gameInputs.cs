@@ -62,6 +62,15 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AnyKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""b664d5fb-0dea-47d0-834b-add075ecdb3b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -317,6 +326,17 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11c8757a-ee13-442a-b23f-357796761c00"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -328,6 +348,15 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""name"": ""UnpauseAndBack"",
                     ""type"": ""Button"",
                     ""id"": ""c8ef0e32-71f9-427a-a33d-fba6eea1fbba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AnyKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""3380e1c1-dd6b-4ced-9a19-73295876a2e8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -566,6 +595,17 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7bf9e754-9e2b-4c89-993a-73591ee3fb1c"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -578,9 +618,11 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_AnyKey = m_Player.FindAction("AnyKey", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_UnpauseAndBack = m_Game.FindAction("UnpauseAndBack", throwIfNotFound: true);
+        m_Game_AnyKey = m_Game.FindAction("AnyKey", throwIfNotFound: true);
         m_Game_MenuNavigationUp = m_Game.FindAction("MenuNavigationUp", throwIfNotFound: true);
         m_Game_MenuNavigationDown = m_Game.FindAction("MenuNavigationDown", throwIfNotFound: true);
         m_Game_TabNavigationLeft = m_Game.FindAction("TabNavigationLeft", throwIfNotFound: true);
@@ -651,6 +693,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_AnyKey;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -659,6 +702,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @AnyKey => m_Wrapper.m_Player_AnyKey;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -680,6 +724,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @AnyKey.started += instance.OnAnyKey;
+            @AnyKey.performed += instance.OnAnyKey;
+            @AnyKey.canceled += instance.OnAnyKey;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -696,6 +743,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @AnyKey.started -= instance.OnAnyKey;
+            @AnyKey.performed -= instance.OnAnyKey;
+            @AnyKey.canceled -= instance.OnAnyKey;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -718,6 +768,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Game;
     private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
     private readonly InputAction m_Game_UnpauseAndBack;
+    private readonly InputAction m_Game_AnyKey;
     private readonly InputAction m_Game_MenuNavigationUp;
     private readonly InputAction m_Game_MenuNavigationDown;
     private readonly InputAction m_Game_TabNavigationLeft;
@@ -728,6 +779,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         private @GameInputs m_Wrapper;
         public GameActions(@GameInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @UnpauseAndBack => m_Wrapper.m_Game_UnpauseAndBack;
+        public InputAction @AnyKey => m_Wrapper.m_Game_AnyKey;
         public InputAction @MenuNavigationUp => m_Wrapper.m_Game_MenuNavigationUp;
         public InputAction @MenuNavigationDown => m_Wrapper.m_Game_MenuNavigationDown;
         public InputAction @TabNavigationLeft => m_Wrapper.m_Game_TabNavigationLeft;
@@ -745,6 +797,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @UnpauseAndBack.started += instance.OnUnpauseAndBack;
             @UnpauseAndBack.performed += instance.OnUnpauseAndBack;
             @UnpauseAndBack.canceled += instance.OnUnpauseAndBack;
+            @AnyKey.started += instance.OnAnyKey;
+            @AnyKey.performed += instance.OnAnyKey;
+            @AnyKey.canceled += instance.OnAnyKey;
             @MenuNavigationUp.started += instance.OnMenuNavigationUp;
             @MenuNavigationUp.performed += instance.OnMenuNavigationUp;
             @MenuNavigationUp.canceled += instance.OnMenuNavigationUp;
@@ -767,6 +822,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @UnpauseAndBack.started -= instance.OnUnpauseAndBack;
             @UnpauseAndBack.performed -= instance.OnUnpauseAndBack;
             @UnpauseAndBack.canceled -= instance.OnUnpauseAndBack;
+            @AnyKey.started -= instance.OnAnyKey;
+            @AnyKey.performed -= instance.OnAnyKey;
+            @AnyKey.canceled -= instance.OnAnyKey;
             @MenuNavigationUp.started -= instance.OnMenuNavigationUp;
             @MenuNavigationUp.performed -= instance.OnMenuNavigationUp;
             @MenuNavigationUp.canceled -= instance.OnMenuNavigationUp;
@@ -805,10 +863,12 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnAnyKey(InputAction.CallbackContext context);
     }
     public interface IGameActions
     {
         void OnUnpauseAndBack(InputAction.CallbackContext context);
+        void OnAnyKey(InputAction.CallbackContext context);
         void OnMenuNavigationUp(InputAction.CallbackContext context);
         void OnMenuNavigationDown(InputAction.CallbackContext context);
         void OnTabNavigationLeft(InputAction.CallbackContext context);

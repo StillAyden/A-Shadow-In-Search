@@ -1,27 +1,27 @@
 fileFormatVersion: 2
-guid: bb3dff74f5ad5c740a26ede0dd81c9aa
+guid: 4521d6f5eff1c4142bba60749cf19947
 SpeedTreeImporter:
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bush_Billboard_LOD3
-    second: {fileID: 2100000, guid: be95a4df9ef6a294589ab796f68c04bd, type: 2}
+    second: {fileID: 2100000, guid: 8b6bf23b15e4ff046a66e0a7974659ff, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bush_LOD0
-    second: {fileID: 2100000, guid: 928452e48f4e6ed4d87f319cc95d5eeb, type: 2}
+    second: {fileID: 2100000, guid: 3943e9e92220ea24f81297ec860da86e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bush_LOD1
-    second: {fileID: 2100000, guid: 2460ece5853aab8428e93fd3444506ee, type: 2}
+    second: {fileID: 2100000, guid: 76b12c1f9963b5444a51754ed48b6916, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bush_LOD2
-    second: {fileID: 2100000, guid: 82b722a6f89697348803fd3ea75f540f, type: 2}
+    second: {fileID: 2100000, guid: 0a583e76657abc848a47a75206b2dc11, type: 2}
   serializedVersion: 6
   mainColor: {r: 1, g: 1, b: 1, a: 1}
   hueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}

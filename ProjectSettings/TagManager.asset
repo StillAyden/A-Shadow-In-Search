@@ -9,6 +9,11 @@ TagManager:
   - Interior
   - LightSwitch
   - GraphicsSettings
+  - GameManager
+  - Door
+  - OutsideDoor
+  - Key
+  - End
   layers:
   - Default
   - TransparentFX

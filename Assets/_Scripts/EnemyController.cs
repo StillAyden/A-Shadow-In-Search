@@ -5,10 +5,12 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] Character Character;
+    //[SerializeField] Character Character;
     [SerializeField] List<LightSwitch> lightSwitches;
     [SerializeField] LightSwitch lightSwitch;
 
+    [SerializeField] Light personalLight;
+    
     [Header("Navigation")]
     NavMeshAgent enemyNavigation;
     [SerializeField] Transform selectedDestination;
@@ -18,6 +20,8 @@ public class EnemyController : MonoBehaviour
 
     Coroutine coroutine = null;
     bool onTriggerCoroutine = false;
+
+    bool isSpotted = false;
     private void Awake()
     {
         enemyNavigation = GetComponent<NavMeshAgent>();
@@ -58,7 +62,7 @@ public class EnemyController : MonoBehaviour
         coroutine = null;
     }
 
-    private void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter1(Collider col)
     {
         if (col.gameObject.layer == 6)
         {
@@ -80,27 +84,43 @@ public class EnemyController : MonoBehaviour
                 if(Vector3.Distance(this.transform.position, lightSwitch.transform.position) < 0.25)
                 {
                     lightSwitch.isOn = true;
+                    enemyNavigation.destination = selectedDestination.position;
                     selectedDestination = tempDestination;
                 }
             }
         }
     }
-
-    private IEnumerator OnTriggerExit(Collider col)
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            isSpotted = false;
+        }
+    }
+    private IEnumerator OnTriggerEnter(Collider col)
     {
         if (onTriggerCoroutine == false)
         {
             onTriggerCoroutine = true;
             if (col.CompareTag("Player"))
             {
-                enemyNavigation.destination = this.transform.position;
-                this.transform.LookAt(col.transform);
-                yield return new WaitForSeconds(1f);
+                isSpotted = true;
+                do
+                {
+                    personalLight.gameObject.SetActive(true);
+
+                    enemyNavigation.destination = this.transform.position;
+                    this.transform.LookAt(col.transform);
+                    yield return new WaitForSeconds(1f);
+                }
+                while (isSpotted == true);
+
                 enemyNavigation.destination = col.transform.position;
 
-                if (Vector3.Distance(this.transform.position, selectedDestination.position) > 0.1)
+                if (Vector3.Distance(this.transform.position, enemyNavigation.destination) > 0.1)
                 {
                     enemyNavigation.destination = selectedDestination.position;
+                    personalLight.gameObject.SetActive(false);
                 }
             }
             onTriggerCoroutine = false;

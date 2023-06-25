@@ -11,7 +11,7 @@ public class LightSwitch : MonoBehaviour
     [SerializeField] List<Light> assignedLights;
     public bool isOn;
     Light indicatorLight;
-    [SerializeField] GameObject zone;
+     GameObject zone;
 
     //UI
     [SerializeField] GameObject interactPanel;

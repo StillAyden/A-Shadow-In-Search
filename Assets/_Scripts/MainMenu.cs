@@ -163,7 +163,7 @@ public class MainMenu : MonoBehaviour
     IEnumerator CreditsTimer()
     {
         yield return new WaitForSecondsRealtime(1.5f);
-        creditsCanvas.gameObject.SetActive(true);
+        creditsCanvas.gameObject.GetComponent<Canvas>().enabled = true;
         this.gameObject.SetActive(false);
     }
 

@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6706558126928012303
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 12
-  hdPluginSubTargetMaterialVersions:
-    m_Keys: []
-    m_Values: 
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -28,42 +12,38 @@ Material:
     type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _DISABLE_DECALS
-  - _DISABLE_SSR
   - _DISABLE_SSR_TRANSPARENT
   - _DOUBLESIDED_ON
-  - _WINDQUALITY_NONE
+  - _WINDQUALITY_BEST
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 2475
   stringTagMap:
-    MotionVector: User
     RenderType: TransparentCutout
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
   - TransparentBackface
   - RayTracingPrepass
-  - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 2b97874f5bf05de44a8e66b3db0afe7a, type: 3}
+        m_Texture: {fileID: 2800000, guid: ec59696ab0d7955479ab95f2f7c7de02, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ExtraTex:
-        m_Texture: {fileID: 2800000, guid: d509d04ed3b80e34687d656d4a78b2d5, type: 3}
+        m_Texture: {fileID: 2800000, guid: fe1eb3f1eaad3ca498de97ec56a39afd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 80318bd7bb833434c9a5054344444b8b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5256d1b0b20d6174fbbcb2b2124157fb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SubsurfaceTex:
-        m_Texture: {fileID: 2800000, guid: 6bcc4faf94780734ea70ec9c150db2c1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 506af492766bf4d4ea6824517a500fd1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -82,7 +62,7 @@ Material:
     m_Floats:
     - Diffusion_Profile: 3.8956573
     - EFFECT_BILLBOARD: 0
-    - EFFECT_EXTRA_TEX: 0
+    - EFFECT_EXTRA_TEX: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClipThreshold: 0.1
     - _AlphaCutoffEnable: 1
@@ -102,28 +82,28 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _Glossiness: 0.5
-    - _HueVariationKwToggle: 0
+    - _HueVariationKwToggle: 1
     - _NormalMapKwToggle: 1
     - _OpaqueCullMode: 2
     - _RayTracing: 0
-    - _ReceivesSSR: 0
+    - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _StencilRefDepth: 0
+    - _StencilRefDepth: 8
     - _StencilRefDistortionVec: 4
-    - _StencilRefGBuffer: 2
-    - _StencilRefMV: 32
+    - _StencilRefGBuffer: 10
+    - _StencilRefMV: 40
     - _StencilWriteMask: 6
     - _StencilWriteMaskDepth: 8
     - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 40
     - _SubsurfaceScale: 1
-    - _SupportDecals: 0
+    - _SupportDecals: 1
     - _SurfaceType: 0
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
@@ -133,8 +113,8 @@ Material:
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
-    - _WINDQUALITY: 0
-    - _WindQuality: 0
+    - _WINDQUALITY: 4
+    - _WindQuality: 4
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
@@ -142,8 +122,24 @@ Material:
     m_Colors:
     - Diffusion_Profile_Asset: {r: -8.695931e+30, g: -5.0949594e+31, b: -0.010710085,
         a: -0.0000000055696536}
-    - _Color: {r: 0.8078771, g: 0.84400004, b: 0.78998405, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DoubleSidedConstants: {r: -1, g: -1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _HueVariationColor: {r: 1, g: 0.5, b: 0, a: 0.1}
   m_BuildTextureStacks: []
+--- !u!114 &9168477469795078974
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 12
+  hdPluginSubTargetMaterialVersions:
+    m_Keys: []
+    m_Values: 
